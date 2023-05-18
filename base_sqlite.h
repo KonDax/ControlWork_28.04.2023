@@ -36,7 +36,8 @@ class BD_Sorts : BD {
 		static int callback_LL(void* outputStruct, int countRec, char** argv, char** colName);
 		static int callback_selectId(void* outputStruct, int countRec, char** argv, char** colName);
 
-		LinkedList getLinkedList() const { return *LL;}
+		void showLL();
+		void writeLLToFile() const;
 
 		int selectInLinkedList(const char*, int);
 		int selectIdfromSorts(const char*, int&);

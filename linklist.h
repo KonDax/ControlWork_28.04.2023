@@ -3,14 +3,15 @@
 
 #include <fstream>
 #include <iostream>
+#include <cstring>
 
 struct Data {
 	int countRes;
 	char** fieldName;
 	char** fieldValue;
 	void show();
+ 	void setData(int, char**, char**);
 	Data();
-	Data(int);
 	~Data();
 };
 

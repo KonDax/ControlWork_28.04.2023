@@ -30,7 +30,7 @@ class ProcessKey{
 		const int* getNumSorts() const { return &numSortsToSort[0]; }
 		int getCountSort() const { return countSort; }
 
-		void processKey(int argc, char** argv);
+		ProcessKey(int argc, char** argv);
 		void procKey(const std::string key);
 };
 

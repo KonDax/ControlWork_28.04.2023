@@ -8,14 +8,16 @@
 #include <iostream>
 #include <cstring>
 
-class SuperClass : BD_Sorts, Sorts, ProcessKey{
+class SuperClass : BD_Sorts, Sorts {
 	private:
+		ProcessKey* keys;
 		void baseInLinkedList();		
 	public:
 		void actionMeas();
 		void actionList();
 		void actionExport();
 		SuperClass(int argc, char** argv);
+		~SuperClass();
 };
 
 #endif

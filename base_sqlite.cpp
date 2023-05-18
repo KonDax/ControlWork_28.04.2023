@@ -32,29 +32,25 @@ BD_Sorts::BD_Sorts(){
 
 BD_Sorts::~BD_Sorts(){
 	delete LL;
-};
+}
 
 BD::~BD(){
     closeBd();
 }
 
+void BD_Sorts::showLL(){
+    LL->showLL();
+}
+
+void BD_Sorts::writeLLToFile() const {
+    LL->writeToFileFromHead();
+}
+
 int BD_Sorts::callback_LL(void* outS, int countRec, char** argv, char** colName){
     LinkedList* temp = static_cast<LinkedList*>(outS);
-    
+
     Data* data = new Data();
-
-    data->countRes = countRec;
-    data->fieldName = new char* [countRec];
-    data->fieldValue = new char* [countRec];
- 
-    for (int i = 0; i < countRec; i++){
-        data->fieldName[i] = new char [strlen(colName[i])];
-        data->fieldValue[i] = new char [strlen(argv[i])];
-
-        strcpy(data->fieldName[i], colName[i]);
-        strcpy(data->fieldValue[i], argv[i]);
-    }
-
+    data->setData(countRec, colName, argv);
     temp->putToEnd(data);
 
     return 0;

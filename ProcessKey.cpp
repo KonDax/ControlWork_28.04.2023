@@ -1,6 +1,6 @@
 #include "ProcessKey.h"
 
-void ProcessKey::processKey(int argc, char** argv){
+ProcessKey::ProcessKey(int argc, char** argv){
 	action = 0;
 	countSort = 0;
 	size = 1000;

@@ -24,10 +24,19 @@ Node::~Node() {
 	}
 }
 
-Data::Data(int count){
+void Data::setData(int count, char** colName, char** argv){
 	countRes = count;
 	fieldName = new char* [countRes];
 	fieldValue = new char* [countRes];
+
+ 
+    for (int i = 0; i < countRes; i++){
+        fieldName[i] = new char [strlen(colName[i])+1];
+        fieldValue[i] = new char [strlen(argv[i])+1];
+
+        strcpy(fieldName[i], colName[i]);
+        strcpy(fieldValue[i], argv[i]);
+    }
 }
 
 Data::Data(){
@@ -37,13 +46,13 @@ Data::Data(){
 }
 
 Data::~Data() {
-	if (fieldName != nullptr){
+	if (countRes){
 		for (int i = 0; i < countRes; i++){
 			delete [] fieldName[i];
 			delete [] fieldValue[i];
+		}
 		delete [] fieldName;
 		delete [] fieldValue;
-		}
 	}
 }
 
@@ -52,14 +61,6 @@ void Data::show(){
 		std::cout << fieldName[i] << " : " << fieldValue[i] << "\t";
 	}
 	std::cout << std::endl;
-}
-
-void LinkedList::showLL(){
-    Data dt;
-    setHead(dt);
-    do{
-        dt.show();
-    }while(setNext(dt));
 }
 
 LinkedList::LinkedList(){
@@ -75,7 +76,7 @@ bool LinkedList::setHead(Data& d){
 	if (head == nullptr)
 		return 0;
 	cur = head;
-	d = *cur->data;
+	d.setData(cur->data->countRes, cur->data->fieldName, cur->data->fieldValue);
 	return 1;
 }
 
@@ -83,10 +84,20 @@ bool LinkedList::setNext(Data& d){
 	if (cur->next == nullptr)
 		return 0;
 	cur = cur->next;
-	d = *cur->data;
+	d.setData(cur->data->countRes, &cur->data->fieldName[0], &cur->data->fieldValue[0]);
 	return 1;
 }
 
+void LinkedList::showLL(){
+    Data dt;
+
+    if (!setHead(dt)){
+        return;
+    }
+    do{
+        dt.show();
+    }while(setNext(dt));
+}
 
 void LinkedList::putToEnd(Data* data) {
 	Node* temp = new Node(data);

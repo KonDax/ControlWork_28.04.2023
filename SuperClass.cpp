@@ -2,9 +2,9 @@
 
 SuperClass::SuperClass(int argc, char** argv){
 
-    processKey(argc, argv);
+	keys = new ProcessKey(argc, argv);
 
-    switch(getAction()){
+    switch(keys->getAction()){
     	case ACTION::meas:
     		actionMeas();
     		break;
@@ -17,22 +17,26 @@ SuperClass::SuperClass(int argc, char** argv){
     }
 }
 
+SuperClass::~SuperClass(){
+	delete keys;
+}
+
 void SuperClass::baseInLinkedList(){
-	const int* numSorts = getNumSorts();
-	for (int curStep = getSteps(); curStep <= getSize(); curStep += getSteps()){
-		for (int i = 0; i < getCountSort(); i++){
-			selectInLinkedList(getNameSortById(numSorts[i]).c_str(), curStep);
+	const int* numSorts = keys->getNumSorts();
+	for (int curStep = keys->getSteps(); curStep <= keys->getSize(); curStep += keys->getSteps()){
+		for (int i = 0; i < keys->getCountSort(); i++){
+			selectInLinkedList(keys->getNameSortById(numSorts[i]).c_str(), curStep);
 		}
 	}
 }
 
 void SuperClass::actionMeas(){
 	std::string nameSort;
-    const int* numSorts = getNumSorts();
+    const int* numSorts = keys->getNumSorts();
 	int time, idSort, idSizeAr, idResSort;
-    for (int i = 0; i < getCountSort(); i++){
+    for (int i = 0; i < keys->getCountSort(); i++){
     	idSort = 0;
-    	nameSort = getNameSortById(numSorts[i]);
+    	nameSort = keys->getNameSortById(numSorts[i]);
     	selectIdfromSorts(nameSort.c_str(), idSort);
 
     	if (!idSort){
@@ -40,11 +44,11 @@ void SuperClass::actionMeas(){
     	}
     }
 
-	for (int curStep = getSteps(); curStep <= getSize(); curStep += getSteps()) {
+	for (int curStep = keys->getSteps(); curStep <= keys->getSize(); curStep += keys->getSteps()) {
 		idSizeAr = 0;
-		for (int i = 0; i < getCountSort(); i++) {
+		for (int i = 0; i < keys->getCountSort(); i++) {
 			idResSort = 0;			
-			selectIdfromSorts(getNameSortById(numSorts[i]).c_str(), idSort);
+			selectIdfromSorts(keys->getNameSortById(numSorts[i]).c_str(), idSort);
 
 			selectIdfromSizeArs(curStep, idSizeAr);
 			if (!idSizeAr){
@@ -63,10 +67,10 @@ void SuperClass::actionMeas(){
 
 void SuperClass::actionList(){
 	baseInLinkedList();
-	getLinkedList().showLL();
+	showLL();
 }
 
 void SuperClass::actionExport(){
 	baseInLinkedList();
-	getLinkedList().writeToFileFromHead();
+	writeLLToFile();
 }
