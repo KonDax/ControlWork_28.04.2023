@@ -9,12 +9,12 @@
 #include <cstring>
 
 class SuperClass : BD_Sorts, Sorts, ProcessKey{
+	private:
+		void baseInLinkedList();		
 	public:
-		void createTables();
 		void actionMeas();
 		void actionList();
 		void actionExport();
-		void baseInLinkedList();		
 		SuperClass(int argc, char** argv);
 };
 

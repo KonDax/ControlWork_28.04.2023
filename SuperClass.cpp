@@ -4,8 +4,6 @@ SuperClass::SuperClass(int argc, char** argv){
 
     processKey(argc, argv);
 
-    createTables();
-
     switch(getAction()){
     	case ACTION::meas:
     		actionMeas();
@@ -19,25 +17,6 @@ SuperClass::SuperClass(int argc, char** argv){
     }
 }
 
-void SuperClass::createTables(){
-	createSorts();	
-	createSizeArs();
-    createResSorts();
-
-    std::string nameSort;
-    const int* numSorts = getNumSorts();
-    int idSort;
-    for (int i = 0; i < getCountSort(); i++){
-    	idSort = 0;
-    	nameSort = getNameSortById(numSorts[i]);
-    	selectIdfromSorts(nameSort.c_str(), idSort);
-
-    	if (!idSort){
-    		insertIntoSorts(numSorts[i], nameSort.c_str());
-    	}
-    }
-}
-
 void SuperClass::baseInLinkedList(){
 	const int* numSorts = getNumSorts();
 	for (int curStep = getSteps(); curStep <= getSize(); curStep += getSteps()){
@@ -48,8 +27,19 @@ void SuperClass::baseInLinkedList(){
 }
 
 void SuperClass::actionMeas(){
+	std::string nameSort;
+    const int* numSorts = getNumSorts();
 	int time, idSort, idSizeAr, idResSort;
-	const int* numSorts = getNumSorts();
+    for (int i = 0; i < getCountSort(); i++){
+    	idSort = 0;
+    	nameSort = getNameSortById(numSorts[i]);
+    	selectIdfromSorts(nameSort.c_str(), idSort);
+
+    	if (!idSort){
+    		insertIntoSorts(numSorts[i], nameSort.c_str());
+    	}
+    }
+
 	for (int curStep = getSteps(); curStep <= getSize(); curStep += getSteps()) {
 		idSizeAr = 0;
 		for (int i = 0; i < getCountSort(); i++) {
@@ -73,15 +63,10 @@ void SuperClass::actionMeas(){
 
 void SuperClass::actionList(){
 	baseInLinkedList();
-
-	Data dt;
-	LL->setHead(dt);
-	do{
-		dt.show();
-	}while(LL->setNext(dt));
+	getLinkedList().showLL();
 }
 
 void SuperClass::actionExport(){
 	baseInLinkedList();
-	LL->writeToFileFromHead();
+	getLinkedList().writeToFileFromHead();
 }

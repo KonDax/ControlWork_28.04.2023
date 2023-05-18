@@ -54,6 +54,14 @@ void Data::show(){
 	std::cout << std::endl;
 }
 
+void LinkedList::showLL(){
+    Data dt;
+    setHead(dt);
+    do{
+        dt.show();
+    }while(setNext(dt));
+}
+
 LinkedList::LinkedList(){
 	head = nullptr;
 	tail = nullptr;

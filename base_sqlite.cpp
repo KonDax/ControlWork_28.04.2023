@@ -25,6 +25,9 @@ BD::BD(){
 
 BD_Sorts::BD_Sorts(){
 	LL = new LinkedList();
+    createSorts();  
+    createSizeArs();
+    createResSorts();
 }
 
 BD_Sorts::~BD_Sorts(){

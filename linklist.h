@@ -36,6 +36,8 @@ class LinkedList {
 		bool setNext(Data&);
 		/* добавить элемент в конец списка */ 
 
+		void showLL();
+
 		void putToEnd(Data* data);
 //		void putToEnd(const Data& data);
 		/*добавить элемент вначало списка */
