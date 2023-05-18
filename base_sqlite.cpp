@@ -70,28 +70,32 @@ int BD_Sorts::selectInLinkedList(const char* nameSort, int SizeAr){
 
 int BD_Sorts::callback_selectId(void* outS, int countRec, char** argv, char** colName){
     int* temp = (int*) outS;
-    *temp = std::stoi(argv[0]);
+    if (!*temp)
+        *temp = std::stoi(argv[0]);
     return 0;
 }
 
 int BD_Sorts::selectIdfromSizeArs(int SizeAr, int& answer){
+    answer = 0;
     std::string sqlString = "SELECT id from SizeArs where SizeAr = '" + std::to_string(SizeAr) + "'";
     return request_select(sqlString.c_str(), callback_selectId, &answer);
 }
 
 int BD_Sorts::selectIdfromSorts(const char* nameSort, int& answer){
+    answer = 0;
     std::string sqlString = "SELECT id from Sorts where nameSort = '" + (std::string)nameSort + "'";
     return request_select(sqlString.c_str(), callback_selectId, &answer);
 }
 
 int BD_Sorts::selectIdfromResSorts(int idSort, int idSizeAr, int& answer){
+    answer = 0;
     std::string sqlString = "SELECT id from ResSorts where idSort = " + std::to_string(idSort);
     sqlString += " and idSizeAr = " + std::to_string(idSizeAr);
     return request_select(sqlString.c_str(), callback_selectId, &answer);
 }
 
-void BD_Sorts::insertIntoSorts(const char* nameSort){
-    std::string sqlString = "INSERT INTO Sorts(nameSort) values ('" + (std::string)nameSort + "');";
+void BD_Sorts::insertIntoSorts(int id, const char* nameSort){
+    std::string sqlString = "INSERT INTO Sorts(id, nameSort) values (" + std::to_string(id) + ", '" + (std::string)nameSort + "');";
     request_insert_create(sqlString.c_str());
 }
 

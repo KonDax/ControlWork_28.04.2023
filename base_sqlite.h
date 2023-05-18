@@ -40,7 +40,7 @@ class BD_Sorts : BD {
 		int selectIdfromSorts(const char*, int&);
 		int selectIdfromSizeArs(int, int&);
 		int selectIdfromResSorts(int, int, int&);
-		void insertIntoSorts(const char*);
+		void insertIntoSorts(int, const char*);
 		void insertIntoSizeArs(int);
 		void insertIntoResSorts(int, int, int);
 

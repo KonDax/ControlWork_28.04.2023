@@ -15,7 +15,7 @@ SuperClass::SuperClass(int argc, char** argv){
     	selectIdfromSorts(nameSort.c_str(), idSort);
 
     	if (!idSort){
-    		insertIntoSorts(nameSort.c_str());
+    		insertIntoSorts(i, nameSort.c_str());
     	}
     }
 
