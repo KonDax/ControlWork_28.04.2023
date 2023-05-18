@@ -1,23 +1,10 @@
 #include "SuperClass.h"
 
 SuperClass::SuperClass(int argc, char** argv){
-    createSorts();	
-	createSizeArs();
-    createResSorts();
 
     processKey(argc, argv);
 
-    std::string nameSort;
-    int idSort;
-    for (int i = 1; i < 7; i++){
-    	idSort = 0;
-    	nameSort = getNameSortById(i);
-    	selectIdfromSorts(nameSort.c_str(), idSort);
-
-    	if (!idSort){
-    		insertIntoSorts(i, nameSort.c_str());
-    	}
-    }
+    createTables();
 
     switch(getAction()){
     	case ACTION::meas:
@@ -29,6 +16,25 @@ SuperClass::SuperClass(int argc, char** argv){
     	case ACTION::expor:
     		actionExport();
     		break;
+    }
+}
+
+void SuperClass::createTables(){
+	createSorts();	
+	createSizeArs();
+    createResSorts();
+
+    std::string nameSort;
+    const int* numSorts = getNumSorts();
+    int idSort;
+    for (int i = 0; i < getCountSort(); i++){
+    	idSort = 0;
+    	nameSort = getNameSortById(numSorts[i]);
+    	selectIdfromSorts(nameSort.c_str(), idSort);
+
+    	if (!idSort){
+    		insertIntoSorts(numSorts[i], nameSort.c_str());
+    	}
     }
 }
 

@@ -10,6 +10,7 @@
 
 class SuperClass : BD_Sorts, Sorts, ProcessKey{
 	public:
+		void createTables();
 		void actionMeas();
 		void actionList();
 		void actionExport();
