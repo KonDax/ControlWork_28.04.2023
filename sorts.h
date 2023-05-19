@@ -14,10 +14,11 @@ void merge(int*, int, int);
 void mergeSort(int* ar, int size);
 
 class Sorts{
-	protected:
+	private:
 		void (*sortF[6])(int*, int) {bubble_sort, insertion_sort, selection_sort, count_sort, quickSort, mergeSort};
 	public:
 		int get_time_ms(void (*)(int*, int), int);
+		auto getSortById(int i){return sortF[i];}
 };
 
 #endif

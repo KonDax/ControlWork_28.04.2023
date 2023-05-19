@@ -3,6 +3,8 @@
 SuperClass::SuperClass(int argc, char** argv){
 
 	keys = new ProcessKey(argc, argv);
+	bd = new BD_Sorts();
+	sorts = new Sorts();
 
     switch(keys->getAction()){
     	case ACTION::meas:
@@ -19,13 +21,15 @@ SuperClass::SuperClass(int argc, char** argv){
 
 SuperClass::~SuperClass(){
 	delete keys;
+	delete bd;
+	delete sorts;
 }
 
 void SuperClass::baseInLinkedList(){
 	const int* numSorts = keys->getNumSorts();
 	for (int curStep = keys->getSteps(); curStep <= keys->getSize(); curStep += keys->getSteps()){
 		for (int i = 0; i < keys->getCountSort(); i++){
-			selectInLinkedList(keys->getNameSortById(numSorts[i]).c_str(), curStep);
+			bd->selectInLinkedList(keys->getNameSortById(numSorts[i]).c_str(), curStep);
 		}
 	}
 }
@@ -37,10 +41,10 @@ void SuperClass::actionMeas(){
     for (int i = 0; i < keys->getCountSort(); i++){
     	idSort = 0;
     	nameSort = keys->getNameSortById(numSorts[i]);
-    	selectIdfromSorts(nameSort.c_str(), idSort);
+    	bd->selectIdfromSorts(nameSort.c_str(), idSort);
 
     	if (!idSort){
-    		insertIntoSorts(numSorts[i], nameSort.c_str());
+    		bd->insertIntoSorts(numSorts[i], nameSort.c_str());
     	}
     }
 
@@ -48,18 +52,18 @@ void SuperClass::actionMeas(){
 		idSizeAr = 0;
 		for (int i = 0; i < keys->getCountSort(); i++) {
 			idResSort = 0;			
-			selectIdfromSorts(keys->getNameSortById(numSorts[i]).c_str(), idSort);
+			bd->selectIdfromSorts(keys->getNameSortById(numSorts[i]).c_str(), idSort);
 
-			selectIdfromSizeArs(curStep, idSizeAr);
+			bd->selectIdfromSizeArs(curStep, idSizeAr);
 			if (!idSizeAr){
-				insertIntoSizeArs(curStep);
-				selectIdfromSizeArs(curStep, idSizeAr);	
+				bd->insertIntoSizeArs(curStep);
+				bd->selectIdfromSizeArs(curStep, idSizeAr);	
 			}
 
-			selectIdfromResSorts(idSort, idSizeAr, idResSort);
+			bd->selectIdfromResSorts(idSort, idSizeAr, idResSort);
 			if (!idResSort){
-				time = get_time_ms(sortF[numSorts[i]-1], curStep);
-				insertIntoResSorts(idSort, idSizeAr, time);
+				time = sorts->get_time_ms(sorts->getSortById(numSorts[i]-1), curStep);
+				bd->insertIntoResSorts(idSort, idSizeAr, time);
 			}
 		}
 	}
@@ -67,10 +71,10 @@ void SuperClass::actionMeas(){
 
 void SuperClass::actionList(){
 	baseInLinkedList();
-	showLL();
+	bd->showLL();
 }
 
 void SuperClass::actionExport(){
 	baseInLinkedList();
-	writeLLToFile();
+	bd->writeLLToFile();
 }
